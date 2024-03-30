@@ -1,0 +1,23 @@
+[
+    {
+      "Name": "example.com",
+      "Type": "A",
+      "TTL": 300,
+      "ResourceRecords": [
+        {
+          "Value": "192.0.2.1"
+        }
+      ]
+    },
+    {
+      "Name": "sub.example.com",
+      "Type": "CNAME",
+      "TTL": 300,
+      "ResourceRecords": [
+        {
+          "Value": "example.com"
+        }
+      ]
+    }
+  ]
+  

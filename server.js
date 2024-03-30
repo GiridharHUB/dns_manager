@@ -1,9 +1,12 @@
 const express = require("express");
 const AWS = require("aws-sdk");
 const cors = require("cors");
+const multer = require('multer');
 const { uuid } = require("uuidv4");
 require("dotenv").config();
 const app = express();
+const storage = multer.memoryStorage();
+const upload = multer({ dest: 'uploads/', storage: storage});
 
 app.use(express.json());
 
@@ -204,6 +207,38 @@ app.delete("/deleteRecord", async (req, res) => {
     })
     .catch((err) => {
       res.status(500).send("Failed to delete Route 53 record", err);
+    });
+});
+
+app.post("/fileUpload/:id", upload.single("file"), (req, res) => {
+  const id = req.params.id
+  console.log(req.file)
+  if (!req.file) {
+    return res.status(400).send("No file uploaded.");
+  }
+  const fileContent = req.file.buffer.toString();
+  const dnsRecords = JSON.parse(fileContent);
+
+  const params = {
+    ChangeBatch: {
+      Changes: dnsRecords.map((record) => ({
+        Action: "CREATE",
+        ResourceRecordSet: record,
+      })),
+      Comment: "Add DNS records",
+    },
+    HostedZoneId: id,
+  };
+
+  route53
+    .changeResourceRecordSets(params)
+    .promise()
+    .then(() => {
+      res.send("DNS records added successfully.");
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).send("Error adding DNS records.");
     });
 });
 

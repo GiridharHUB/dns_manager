@@ -15,6 +15,7 @@ import { useLocation, NavLink } from "react-router-dom";
 import axios from "axios";
 import loader from "../../Assets/img/loader.svg";
 import plus from "../../Assets/img/plus.png";
+import UploadFile from "../UploadFile/UploadFile";
 
 const DataTable = () => {
   const location = useLocation();
@@ -415,6 +416,7 @@ const DataTable = () => {
             />
           ))}
         </div>
+        <UploadFile id={location.state} />
       </Drawer>
       <div className="table-header" style={{ marginBlock: "2vh" }}>
         <h1 style={{ color: "#009879", margin: 0 }}>Domains</h1>
