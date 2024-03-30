@@ -21,6 +21,18 @@ AWS.config.update({
 });
 const route53 = new AWS.Route53();
 
+app.post("/login", async (req, res) => {
+  const { userid, password } = req.body.data;
+  if (
+    userid === process.env.REACT_APP_USERNAME &&
+    password === process.env.REACT_APP_PASSWORD
+  ) {
+    res.status(200).send("Login successfull");
+  } else {
+    res.status(500).send("Login Failed");
+  }
+});
+
 app.get("/getHostedZones", async (req, res) => {
   await route53
     .listHostedZones()
@@ -132,7 +144,7 @@ app.post("/createRecord", async (req, res) => {
 
 app.post("/updateRecord", async (req, res) => {
   const { Name, ResourceRecords, Type, TTL } = req.body.selectedData;
-  const id = req.body.id
+  const id = req.body.id;
   const params = {
     ChangeBatch: {
       Changes: [
@@ -198,30 +210,3 @@ app.delete("/deleteRecord", async (req, res) => {
 app.listen(process.env.REACT_APP_PORT, () =>
   console.log(`Server running on port ${process.env.REACT_APP_PORT}`)
 );
-
-// const params = {
-//   ChangeBatch: {
-//     Changes: [
-//       {
-//         Action: "CREATE",
-//         ResourceRecordSet: {
-//           Name: 'example.co.in',
-//           Type: 'A',
-//           TTL: 300,
-//           ResourceRecords: [{Value: '192.33.44.55'}, {Value: '192.66.77.88'}],
-//         },
-//       },
-//     ],
-//   },
-//   HostedZoneId: hostedZoneId,
-// };
-
-//  route53
-//   .changeResourceRecordSets(params)
-//   .promise()
-//   .then(() => {
-//     console.log("Successfully created Route 53 record");
-//   })
-//   .catch((err) => {
-//     console.log("Failed to create Route 53 record", err);
-//   });

@@ -8,9 +8,9 @@ import {
   Space,
   Popconfirm,
   Drawer,
-  Button,
   message,
 } from "antd";
+import { LeftOutlined } from "@ant-design/icons";
 import { useLocation, NavLink } from "react-router-dom";
 import axios from "axios";
 import loader from "../../Assets/img/loader.svg";
@@ -120,11 +120,6 @@ const DataTable = () => {
     }, 1000);
   }, []);
 
-  const showModal = (value) => {
-    setselectedData(value);
-    setIsModalOpen(true);
-  };
-
   const createRecord = async () => {
     if (
       addData.Name === "" ||
@@ -224,12 +219,29 @@ const DataTable = () => {
     });
   };
 
+  const showDrawer = () => {
+    if (localStorage.getItem("isLoggedIn")) {
+      setOpen(true);
+    } else {
+      message.error("Please login to Add a Domain!");
+    }
+  };
+
+  const showModal = (value) => {
+    if (localStorage.getItem("isLoggedIn")) {
+      setselectedData(value);
+      setIsModalOpen(true);
+    } else {
+      message.error("Please login to Edit!");
+    }
+  };
+
   return (
     <div className="table">
       <Breadcrumb
         items={[
           {
-            title: <NavLink to="/">Hosted Zones</NavLink>,
+            title: <NavLink to="/"><LeftOutlined /> Hosted Zones</NavLink>
           },
           {
             title: "Domains",
@@ -406,7 +418,7 @@ const DataTable = () => {
       </Drawer>
       <div className="table-header" style={{ marginBlock: "2vh" }}>
         <h1 style={{ color: "#009879", margin: 0 }}>Domains</h1>
-        <button className="primary-btn" onClick={() => setOpen(true)}>
+        <button className="primary-btn" onClick={() => showDrawer()}>
           Add a Domain
         </button>
       </div>

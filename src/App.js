@@ -5,6 +5,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Tiles from "./Components/Tiles/Tiles";
 import Table from "./Components/Table/Table";
+import Login from "./Components/Login/Login";
 
 function App() {
   const [data, setData] = useState([]);
@@ -20,15 +21,16 @@ function App() {
   }, []);
   return (
     <BrowserRouter>
-      <div>
+      <>
         <Navbar />
         <div className="App">
           <Routes>
             <Route path="/" element={<Tiles hostedZones={data} />} />
             <Route path="/domains" element={<Table />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
-      </div>
+      </>
     </BrowserRouter>
   );
 }

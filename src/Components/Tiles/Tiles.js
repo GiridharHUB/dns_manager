@@ -11,20 +11,24 @@ const Tiles = ({ hostedZones }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const deleteHostedZone = async (value) => {
-    await axios
-      .delete(`http://localhost:8080/deleteHostedZone/${value}`)
-      .then((res) => {
-        setIsModalOpen(false);
-        message.success("HostedZone Deleted Successfully.");
-      })
-      .catch((err) => {
-        console.log(err);
-        message.error("Failed to delete!");
-      });
+    if (localStorage.getItem("isLoggedIn")) {
+      await axios
+        .delete(`http://localhost:8080/deleteHostedZone/${value}`)
+        .then((res) => {
+          setIsModalOpen(false);
+          message.success("HostedZone Deleted Successfully.");
+        })
+        .catch((err) => {
+          console.log(err);
+          message.error("Failed to delete!");
+        });
+    } else {
+      message.error("Please login to Delete the HostedZone!");
+    }
   };
 
   const createHostedZone = async () => {
-    console.log(hostedZoneData.length)
+    console.log(hostedZoneData.length);
     if (hostedZoneData.length === 0) {
       message.error("Please enter all the fields");
     } else {
@@ -49,13 +53,25 @@ const Tiles = ({ hostedZones }) => {
     setHostedZoneData({ ...hostedZoneData, PrivateZone: value });
   };
 
+  const showModal = () => {
+    if (localStorage.getItem("isLoggedIn")) {
+      setIsModalOpen(true);
+    } else {
+      message.error("Please login to Add a HostedZone!");
+    }
+  };
+
   return (
     <>
       <Modal
         title="Edit"
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
-        footer={[<button className="primary-btn" onClick={createHostedZone}>Submit</button>]}
+        footer={[
+          <button className="primary-btn" onClick={createHostedZone}>
+            Submit
+          </button>,
+        ]}
       >
         <div className="edit-form">
           <label>Domain Name</label>
@@ -93,7 +109,7 @@ const Tiles = ({ hostedZones }) => {
         <h2 style={{ color: "#009879", margin: 0 }}>
           Hosted Zones ({hostedZones.length})
         </h2>
-        <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
+        <button className="primary-btn" onClick={() => showModal()}>
           Add a Hosted Zone
         </button>
       </div>

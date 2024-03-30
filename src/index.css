@@ -3,6 +3,11 @@ body {
   font-family: "Signika Negative", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgba(243, 250, 255, 1);
+}
+
+*{
+  font-family: "Signika Negative", sans-serif;
 }
 
 code {
