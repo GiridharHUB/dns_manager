@@ -1,0 +1,33 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 2vw;
+  background-color: #009879;
+  color: white;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  gap: 5vw;
+}
+
+.navbar-list,
+.navbar-list li {
+  display: inline;
+}
+
+.navbar-list .nav-link {
+  padding: 1vh 2vw;
+  margin-inline: 1vw;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
+
+.nav-link.active {
+  background-color: white;
+  color: #009879;
+}

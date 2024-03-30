@@ -1,0 +1,58 @@
+.table{
+  min-width: 80vw;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 1em;
+  width: 100%;
+}
+
+table thead tr th{
+  background-color: #009879 !important;
+  color: #ffff !important;
+  text-align: left;
+  font-weight: bold;
+}
+
+table th,
+table td {
+  padding: 12px 15px;
+}
+
+table tbody tr {
+  border-bottom: 1px solid #dddd;
+}
+
+table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879 !important;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  font-family: "Signika Negative", sans-serif;
+  margin-block: 2vh;
+  gap: 5px;
+}
+
+.edit-form label{
+  font-weight: bold;
+}
+
+.loader{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-label{
+  display: flex;
+  align-items: center;
+  gap: 1vh;
+}
+
+.add-img{
+  cursor: pointer;
+}
