@@ -108,7 +108,7 @@ const DataTable = () => {
   }));
 
   const fetchData = async (id) => {
-    await axios.get(`http://localhost:8080/${id}`).then((res) => {
+    await axios.get(`https://dns-manager-mxbz.vercel.app/${id}`).then((res) => {
       setData(res.data);
     });
   };
@@ -131,7 +131,7 @@ const DataTable = () => {
       return message.error("Please enter all the fields");
     } else {
       await axios
-        .post("http://localhost:8080/createRecord", {
+        .post("https://dns-manager-mxbz.vercel.app/createRecord", {
           addData,
           id: location.state,
         })
@@ -157,7 +157,7 @@ const DataTable = () => {
       return message.error("Please enter all the fields");
     } else {
       await axios
-        .post("http://localhost:8080/updateRecord", {
+        .post("https://dns-manager-mxbz.vercel.app/updateRecord", {
           selectedData,
           id: location.state,
         })
@@ -178,7 +178,7 @@ const DataTable = () => {
       return message.error("Cannot delete this type of record");
     } else {
       await axios
-        .delete(`http://localhost:8080/deleteRecord`, {
+        .delete(`https://dns-manager-mxbz.vercel.app/deleteRecord`, {
           data: { value, id: location.state },
         })
         .then((res) => {

@@ -19,7 +19,7 @@ const UploadFile = ({id}) => {
             const formData = new FormData();
             formData.append('file', file);
 
-            const response = await axios.post(`http://localhost:8080/fileUpload/${id}`, formData, {
+            const response = await axios.post(`https://dns-manager-mxbz.vercel.app/fileUpload/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

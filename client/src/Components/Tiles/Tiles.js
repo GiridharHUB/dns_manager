@@ -13,7 +13,7 @@ const Tiles = ({ hostedZones }) => {
   const deleteHostedZone = async (value) => {
     if (localStorage.getItem("isLoggedIn")) {
       await axios
-        .delete(`http://localhost:8080/deleteHostedZone/${value}`)
+        .delete(`https://dns-manager-mxbz.vercel.app/deleteHostedZone/${value}`)
         .then((res) => {
           setIsModalOpen(false);
           message.success("HostedZone Deleted Successfully.");
@@ -33,7 +33,7 @@ const Tiles = ({ hostedZones }) => {
       message.error("Please enter all the fields");
     } else {
       await axios
-        .post("http://localhost:8080/createHostedZone", { hostedZoneData })
+        .post("https://dns-manager-mxbz.vercel.app/createHostedZone", { hostedZoneData })
         .then((res) => {
           console.log(res);
           setIsModalOpen(false);

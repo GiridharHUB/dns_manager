@@ -15,7 +15,7 @@ function Login() {
       return message.error("Please enter all the fields");
     } else {
       await axios
-        .post("http://localhost:8080/login", { data })
+        .post("https://dns-manager-mxbz.vercel.app/login", { data })
         .then((response) => {
           if (response.status === 200) {
             localStorage.setItem("isLoggedIn", true);

@@ -11,7 +11,7 @@ function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const fetchData = async () => {
-    await axios.get("http://localhost:8080/getHostedZones").then((res) => {
+    await axios.get("https://dns-manager-mxbz.vercel.app/getHostedZones").then((res) => {
       setData(res.data.HostedZones);
       setLoading(false);
     });
