@@ -7,7 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
+  "proxy": {
+    "dev": { "target": "http://localhost:3000"},
+    "prod": { "target": "https://dns-manager-one.vercel.app" }
+  },
+  "author": "Giridhar",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1589.0",
@@ -15,6 +19,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "multer": "^1.4.5-lts.1",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "vercel": "^33.6.2"
   }
 }
