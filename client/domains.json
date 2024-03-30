@@ -1,6 +1,6 @@
 [
     {
-      "Name": "dashboard.example.co.us.",
+      "Name": "dns.manager.com",
       "Type": "A",
       "TTL": 300,
       "ResourceRecords": [
@@ -10,7 +10,7 @@
       ]
     },
     {
-      "Name": "dashboard.example.co.us.",
+      "Name": "dns.manager.com",
       "Type": "AAAA",
       "TTL": 300,
       "ResourceRecords": [

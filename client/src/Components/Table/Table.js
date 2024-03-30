@@ -139,6 +139,9 @@ const DataTable = () => {
           console.log(res);
           message.success("Record Created Successfully.");
           setOpen(false);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         })
         .catch((err) => {
           console.log(err);
@@ -165,6 +168,9 @@ const DataTable = () => {
           console.log(res);
           setIsModalOpen(false);
           message.success("Record Updated Successfully.");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         })
         .catch((err) => {
           console.log(err);
@@ -185,6 +191,9 @@ const DataTable = () => {
           console.log(res);
           setIsModalOpen(false);
           message.success("Record Deleted Successfully.");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         })
         .catch((err) => {
           console.log(err);
@@ -242,7 +251,11 @@ const DataTable = () => {
       <Breadcrumb
         items={[
           {
-            title: <NavLink to="/"><LeftOutlined /> Hosted Zones</NavLink>
+            title: (
+              <NavLink to="/">
+                <LeftOutlined /> Hosted Zones
+              </NavLink>
+            ),
           },
           {
             title: "Domains",

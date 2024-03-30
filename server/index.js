@@ -76,7 +76,7 @@ app.delete("/deleteHostedZone/:id", async (req, res) => {
   route53
     .deleteHostedZone({ Id: id })
     .promise()
-    .then((records) => {
+    .then(() => {
       res.send("Hosted zone deleted successfully:");
     })
     .catch((err) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Tiles.css";
 import loader from "../../Assets/img/loader.svg";
 import axios from "axios";
@@ -9,13 +9,14 @@ import { NavLink } from "react-router-dom";
 const Tiles = ({ hostedZones }) => {
   const [hostedZoneData, setHostedZoneData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [loading, setLoading] = useState(true);
   const deleteHostedZone = async (value) => {
     if (localStorage.getItem("isLoggedIn")) {
       await axios
-        .delete(`https://dns-manager-mxbz.vercel.app/deleteHostedZone/${value}`)
-        .then((res) => {
+        .delete(`http://localhost:8080/deleteHostedZone/${value}`)
+        .then(() => {
           setIsModalOpen(false);
+          window.location.reload();
           message.success("HostedZone Deleted Successfully.");
         })
         .catch((err) => {
@@ -33,10 +34,13 @@ const Tiles = ({ hostedZones }) => {
       message.error("Please enter all the fields");
     } else {
       await axios
-        .post("https://dns-manager-mxbz.vercel.app/createHostedZone", { hostedZoneData })
+        .post("https://dns-manager-mxbz.vercel.app/createHostedZone", {
+          hostedZoneData,
+        })
         .then((res) => {
           console.log(res);
           setIsModalOpen(false);
+          window.location.reload();
           message.success("HostedZone created successfully");
         })
         .catch((err) => {
