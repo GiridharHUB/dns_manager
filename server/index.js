@@ -66,13 +66,12 @@ app.post("/createHostedZone", async (req, res) => {
       res.send(records);
     })
     .catch((err) => {
-      res.status(500).json(err);
+      res.status(500).send(`Failed to create HostedZone: ${err}`);
     });
 });
 
 app.delete("/deleteHostedZone/:id", async (req, res) => {
   const id = req.params.id;
-  console.log(id);
   route53
     .deleteHostedZone({ Id: id })
     .promise()
@@ -80,7 +79,7 @@ app.delete("/deleteHostedZone/:id", async (req, res) => {
       res.send("Hosted zone deleted successfully:");
     })
     .catch((err) => {
-      res.send("Error deleting hosted zone: ", err);
+      res.status(500).send(`Error deleting hosted zone: ${err}` );
     });
 });
 
@@ -110,7 +109,7 @@ app.get("/:id", async (req, res) => {
       res.send(records);
     })
     .catch((err) => {
-      res.send(err);
+      res.status(500).send(err);
     });
 });
 
@@ -141,7 +140,7 @@ app.post("/createRecord", async (req, res) => {
       res.status(200).send("Successfully created Route 53 record");
     })
     .catch((err) => {
-      res.status(500).send("Failed to create Route 53 record", err);
+      res.status(500).send(`${err}`);
     });
 });
 
@@ -174,7 +173,7 @@ app.post("/updateRecord", async (req, res) => {
       res.send("Successfully updated Route 53 record");
     })
     .catch((err) => {
-      res.status(500).send("Failed to update Route 53 record", err);
+      res.status(500).send(`Failed to update Route 53 record ${err}`);
     });
 });
 
@@ -206,13 +205,12 @@ app.delete("/deleteRecord", async (req, res) => {
       res.send("Successfully deleted a Route 53 record");
     })
     .catch((err) => {
-      res.status(500).send("Failed to delete Route 53 record", err);
+      res.status(500).send(`Failed to delete Route 53 record ${err}`);
     });
 });
 
 app.post("/fileUpload/:id", upload.single("file"), (req, res) => {
   const id = req.params.id
-  console.log(req.file)
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
@@ -238,7 +236,7 @@ app.post("/fileUpload/:id", upload.single("file"), (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      return res.status(500).send("Error adding DNS records.");
+      res.status(500).send(`Error adding DNS records ${err}`);
     });
 });
 

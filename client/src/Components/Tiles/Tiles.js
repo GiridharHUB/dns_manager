@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Tiles.css";
 import loader from "../../Assets/img/loader.svg";
 import axios from "axios";
-import { Modal, Select, message, Popconfirm } from "antd";
+import { Modal, Select, message, Popconfirm, notification } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
 
@@ -10,18 +10,33 @@ const Tiles = ({ hostedZones }) => {
   const [hostedZoneData, setHostedZoneData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (type, errorTitle, error, placement) => {
+    api[type]({
+      message: errorTitle,
+      description: error,
+      placement,
+      duration: 0,
+    });
+  };
   const deleteHostedZone = async (value) => {
     if (localStorage.getItem("isLoggedIn")) {
       await axios
-        .delete(`http://localhost:8080/deleteHostedZone/${value}`)
+        .delete(`https://dns-manager-mxbz.vercel.app/deleteHostedZone/${value}`)
         .then(() => {
           setIsModalOpen(false);
           window.location.reload();
           message.success("HostedZone Deleted Successfully.");
         })
         .catch((err) => {
-          console.log(err);
-          message.error("Failed to delete!");
+          err.response.data
+            ? openNotificationWithIcon(
+                "error",
+                "Failed to delete HostedZone",
+                err.response.data,
+                "topLeft"
+              )
+            : message.error("Failed to delete record.");
         });
     } else {
       message.error("Please login to Delete the HostedZone!");
@@ -29,7 +44,6 @@ const Tiles = ({ hostedZones }) => {
   };
 
   const createHostedZone = async () => {
-    console.log(hostedZoneData.length);
     if (hostedZoneData.length === 0) {
       message.error("Please enter all the fields");
     } else {
@@ -38,14 +52,19 @@ const Tiles = ({ hostedZones }) => {
           hostedZoneData,
         })
         .then((res) => {
-          console.log(res);
           setIsModalOpen(false);
           window.location.reload();
           message.success("HostedZone created successfully");
         })
         .catch((err) => {
-          console.log(err);
-          message.error("Failed to create HostedZone");
+          err.response.data
+            ? openNotificationWithIcon(
+                "error",
+                "Failed to create HostedZone",
+                err.response.data,
+                "topLeft"
+              )
+            : message.error("Failed to create record.");
         });
     }
   };
@@ -65,8 +84,15 @@ const Tiles = ({ hostedZones }) => {
     }
   };
 
+  useEffect(()=>{
+    setTimeout(()=>{
+      setLoading(false)
+    }, 1000)
+  })
+
   return (
     <>
+    {contextHolder}
       <Modal
         title="Edit"
         open={isModalOpen}
@@ -117,7 +143,7 @@ const Tiles = ({ hostedZones }) => {
           Add a Hosted Zone
         </button>
       </div>
-      {hostedZones ? (
+      {hostedZones && !loading ? (
         hostedZones?.map((value, index) => (
           <div className="tiles" key={index}>
             <div className="tiles-row">

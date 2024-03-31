@@ -9,6 +9,7 @@ import {
   Popconfirm,
   Drawer,
   message,
+  notification,
 } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import { useLocation, NavLink } from "react-router-dom";
@@ -107,6 +108,16 @@ const DataTable = () => {
     TTL: value.TTL,
   }));
 
+  const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (type, errorTitle, error, placement) => {
+    api[type]({
+      message: errorTitle,
+      description: error,
+      placement,
+      duration: 0,
+    });
+  };
+
   const fetchData = async (id) => {
     await axios.get(`https://dns-manager-mxbz.vercel.app/${id}`).then((res) => {
       setData(res.data);
@@ -136,7 +147,6 @@ const DataTable = () => {
           id: location.state,
         })
         .then((res) => {
-          console.log(res);
           message.success("Record Created Successfully.");
           setOpen(false);
           setTimeout(() => {
@@ -144,8 +154,14 @@ const DataTable = () => {
           }, 1000);
         })
         .catch((err) => {
-          console.log(err);
-          message.error("Failed to create record.");
+          err.response.data
+            ? openNotificationWithIcon(
+                "error",
+                "Failed to create record",
+                err.response.data,
+                "topLeft"
+              )
+            : message.error("Failed to create record.");
         });
     }
   };
@@ -165,7 +181,6 @@ const DataTable = () => {
           id: location.state,
         })
         .then((res) => {
-          console.log(res);
           setIsModalOpen(false);
           message.success("Record Updated Successfully.");
           setTimeout(() => {
@@ -173,8 +188,14 @@ const DataTable = () => {
           }, 1000);
         })
         .catch((err) => {
-          console.log(err);
-          message.error("Failed to update record.");
+          err.response.data
+            ? openNotificationWithIcon(
+                "error",
+                "Failed to update record",
+                err.response.data,
+                "topLeft"
+              )
+            : message.error("Failed to update record.");
         });
     }
   };
@@ -188,7 +209,6 @@ const DataTable = () => {
           data: { value, id: location.state },
         })
         .then((res) => {
-          console.log(res);
           setIsModalOpen(false);
           message.success("Record Deleted Successfully.");
           setTimeout(() => {
@@ -196,8 +216,14 @@ const DataTable = () => {
           }, 1000);
         })
         .catch((err) => {
-          console.log(err);
-          message.error("Failed to delete record.");
+          err.response.data
+            ? openNotificationWithIcon(
+                "error",
+                "Failed to delete record",
+                err.response.data,
+                "topLeft"
+              )
+            : message.error("Failed to delete record.");
         });
     }
   };
@@ -248,6 +274,7 @@ const DataTable = () => {
 
   return (
     <div className="table">
+      {contextHolder}
       <Breadcrumb
         items={[
           {
