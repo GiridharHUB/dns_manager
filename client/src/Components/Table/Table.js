@@ -456,6 +456,7 @@ const DataTable = () => {
             />
           ))}
         </div>
+        (OR)
         <UploadFile id={location.state} />
       </Drawer>
       <div className="table-header" style={{ marginBlock: "2vh" }}>
